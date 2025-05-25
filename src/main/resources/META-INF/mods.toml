@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/Insane96/3DAreaEffectClouds/"
 modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/3d-area-effect-clouds"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/area-effect-clouds-3d"
 authors="${mod_authors}"
 
 description='''${mod_description}'''

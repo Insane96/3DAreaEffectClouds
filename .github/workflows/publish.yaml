@@ -37,13 +37,13 @@ jobs:                                     #The place where you actually tell the
       - name: Publish (CurseForge+Modrinth)
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          curseforge-id: 465109
+          curseforge-id: 1273303
           curseforge-token: "${{env.CURSEFORGE_TOKEN}}"
 
-          modrinth-id: USZyvOJq
+          modrinth-id: 6uNpi7nI
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
 
           files: |
             build/libs/!(*-@(slim)).jar
 
-          changelog: https://github.com/Insane96/InsaneLib/blob/1.20.1/changelog.md
+          changelog: https://github.com/Insane96/3DAreaEffectClouds/blob/1.20.1/changelog.md
