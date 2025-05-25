@@ -1,4 +1,4 @@
-package insane96mcp.areaffectclouds3d;
+package insane96mcp.areaeffectcloud3d;
 
 import insane96mcp.insanelib.base.Module;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
-@Mod.EventBusSubscriber(modid = AreaEffectClouds3D.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = AreaEffectCloud3D.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AOE3DConfig {
 	public static final ForgeConfigSpec COMMON_SPEC;
 	public static final CommonConfig COMMON;
@@ -23,7 +23,7 @@ public class AOE3DConfig {
 	public static class CommonConfig {
 		public CommonConfig(final ForgeConfigSpec.Builder builder) {
 			AOE3DModules.init();
-			Module.loadFeatures(ModConfig.Type.COMMON, AreaEffectClouds3D.MOD_ID, this.getClass().getClassLoader());
+			Module.loadFeatures(ModConfig.Type.COMMON, AreaEffectCloud3D.MOD_ID, this.getClass().getClassLoader());
 		}
 	}
 }

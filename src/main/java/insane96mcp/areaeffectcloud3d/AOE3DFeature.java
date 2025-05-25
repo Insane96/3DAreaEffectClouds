@@ -1,6 +1,6 @@
-package insane96mcp.areaffectclouds3d;
+package insane96mcp.areaeffectcloud3d;
 
-import insane96mcp.areaffectclouds3d.entity.Cloud3DEntity;
+import insane96mcp.areaeffectcloud3d.entity.Cloud3DEntity;
 import insane96mcp.insanelib.base.Feature;
 import insane96mcp.insanelib.base.LoadFeature;
 import insane96mcp.insanelib.base.Module;
@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 
 @LoadFeature(
-        module = AreaEffectClouds3D.MOD_ID + ":base",
+        module = AreaEffectCloud3D.MOD_ID + ":base",
         name = "Area Effect Cloud 3D",
         description = "No more boring flat Area of Effect Clouds",
         canBeDisabled = false

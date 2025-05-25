@@ -1,4 +1,4 @@
-package insane96mcp.areaffectclouds3d.entity;
+package insane96mcp.areaeffectcloud3d.entity;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
