@@ -85,7 +85,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("blank:InsaneLib:${lib_version}")
+    implementation fg.deobf("blank:insanelib:${lib_version}")
 
     //annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     //compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
