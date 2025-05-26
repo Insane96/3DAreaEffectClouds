@@ -7,7 +7,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(modid = AreaEffectCloud3D.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AOE3DConfig {
+public class AEC3DConfig {
 	public static final ForgeConfigSpec COMMON_SPEC;
 	public static final CommonConfig COMMON;
 
@@ -22,7 +22,7 @@ public class AOE3DConfig {
 
 	public static class CommonConfig {
 		public CommonConfig(final ForgeConfigSpec.Builder builder) {
-			AOE3DModules.init();
+			AEC3DModules.init();
 			Module.loadFeatures(ModConfig.Type.COMMON, AreaEffectCloud3D.MOD_ID, this.getClass().getClassLoader());
 		}
 	}

@@ -21,11 +21,11 @@ import net.minecraftforge.fml.LogicalSide;
         description = "No more boring flat Area of Effect Clouds",
         canBeDisabled = false
 )
-public class AOE3DFeature extends Feature {
+public class AEC3DFeature extends Feature {
     @Config(description = "If true, vanilla Area of Effect Clouds will be replaced with 3D versions of them")
     public static Boolean replaceVanillaAreaEffectClouds = true;
 
-    public AOE3DFeature(Module module, boolean enabledByDefault, boolean canBeDisabled) {
+    public AEC3DFeature(Module module, boolean enabledByDefault, boolean canBeDisabled) {
         super(module, enabledByDefault, canBeDisabled);
     }
 

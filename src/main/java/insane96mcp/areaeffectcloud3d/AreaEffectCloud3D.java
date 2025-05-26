@@ -26,7 +26,7 @@ public class AreaEffectCloud3D
 
     public AreaEffectCloud3D(FMLJavaModLoadingContext context)
     {
-        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, AOE3DConfig.COMMON_SPEC, MOD_ID + ".toml");
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, AEC3DConfig.COMMON_SPEC, MOD_ID + ".toml");
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(ClientSetup::init);
 
