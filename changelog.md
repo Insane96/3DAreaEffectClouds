@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.4
+* Fixed mod id
+
 ## 1.0.3
 * Damn it
 

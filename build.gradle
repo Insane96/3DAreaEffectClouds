@@ -76,8 +76,8 @@ repositories {
 
 /*mixin {
     // MixinGradle Settings
-    add sourceSets.main, 'mixins.areaeffectclouds3d.refmap.json'
-    config 'mixins.areaeffectclouds3d.json'
+    add sourceSets.main, 'mixins.areaeffectcloud3d.refmap.json'
+    config 'mixins.areaeffectcloud3d.json'
 
     debug.export = true
 }*/
