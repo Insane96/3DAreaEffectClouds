@@ -1,7 +1,7 @@
 package insane96mcp.areaeffectcloud3d;
 
 import insane96mcp.areaeffectcloud3d.entity.Cloud3DRenderer;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 public class ClientSetup {
     public static void init(final EntityRenderersEvent.RegisterRenderers event) {

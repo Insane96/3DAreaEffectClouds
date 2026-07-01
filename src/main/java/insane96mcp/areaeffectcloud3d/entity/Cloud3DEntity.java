@@ -2,17 +2,15 @@ package insane96mcp.areaeffectcloud3d.entity;
 
 import com.google.common.collect.Lists;
 import insane96mcp.areaeffectcloud3d.AreaEffectCloud3D;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.network.NetworkHooks;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class Cloud3DEntity extends AreaEffectCloud {
 	@Override
 	public void refreshDimensions() {
 		super.refreshDimensions();
-		double radius = (double)this.getDimensions(Pose.STANDING).width / 2.0D;
+		double radius = (double)this.getDimensions(Pose.STANDING).width() / 2.0D;
 		this.setBoundingBox(new AABB(this.getX() - radius, this.getY() - radius, this.getZ() - radius, this.getX() + radius, this.getY() + radius, this.getZ() + radius));
 	}
 
@@ -55,11 +53,10 @@ public class Cloud3DEntity extends AreaEffectCloud {
 						float x = Mth.cos(f1) * f2;
 						float z = Mth.sin(f1) * f2;
 						if (particleOptions.getType() == ParticleTypes.ENTITY_EFFECT) {
-							int j = this.random.nextBoolean() ? 16777215 : this.getColor();
-							int k = j >> 16 & 255;
-							int l = j >> 8 & 255;
-							int i1 = j & 255;
-							this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY(), this.getZ() + (double)z, (double)((float)k / 255.0F), (double)((float)l / 255.0F), (double)((float)i1 / 255.0F));
+							if (this.random.nextBoolean())
+								this.level().addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, -1), this.getX() + (double)x, this.getY(), this.getZ() + (double)z, 0.0D, 0.0D, 0.0D);
+							else
+								this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY(), this.getZ() + (double)z, 0.0D, 0.0D, 0.0D);
 						}
 						else {
 							this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY(), this.getZ() + (double)z, 0.0D, 0.0D, 0.0D);
@@ -71,8 +68,6 @@ public class Cloud3DEntity extends AreaEffectCloud {
 				int particleAmount = (int) (Math.PI * radius * radius);
 
 				for (int k1 = 0; k1 < particleAmount; ++k1) {
-					float f6 = this.random.nextFloat() * ((float)Math.PI * 2F);
-					float f7 = Mth.sqrt(this.random.nextFloat()) * radius;
 					float x = Mth.nextFloat(this.random, -radius, radius);
 					float y = Mth.nextFloat(this.random, -radius, radius);
 					float z = Mth.nextFloat(this.random, -radius, radius);
@@ -80,11 +75,7 @@ public class Cloud3DEntity extends AreaEffectCloud {
 						continue;
 
 					if (particleOptions.getType() == ParticleTypes.ENTITY_EFFECT) {
-						int l1 = this.getColor();
-						int i2 = l1 >> 16 & 255;
-						int j2 = l1 >> 8 & 255;
-						int j1 = l1 & 255;
-						this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY() + (double)y, this.getZ() + (double)z, (float)i2 / 255.0F, (float)j2 / 255.0F, (float)j1 / 255.0F);
+						this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY() + (double)y, this.getZ() + (double)z, 0.0D, 0.0D, 0.0D);
 					} else {
 						this.level().addParticle(particleOptions, this.getX() + (double)x, this.getY() + (double)y, this.getZ() + (double)z, (0.5D - this.random.nextDouble()) * 0.15D, (double)0.01F, (0.5D - this.random.nextDouble()) * 0.15D);
 					}
@@ -119,32 +110,34 @@ public class Cloud3DEntity extends AreaEffectCloud {
 			if (this.tickCount % 5 == 0) {
 				this.victims.entrySet().removeIf(entry -> this.tickCount >= entry.getValue());
 
-				List<MobEffectInstance> list = Lists.newArrayList();
-
-				for(MobEffectInstance effectinstance1 : this.potion.getEffects()) {
-					list.add(new MobEffectInstance(effectinstance1.getEffect(), effectinstance1.getDuration() / 4, effectinstance1.getAmplifier(), effectinstance1.isAmbient(), effectinstance1.isVisible()));
-				}
-
-				list.addAll(this.effects);
-				if (list.isEmpty()) {
+				if (!this.potionContents.hasEffects()) {
 					this.victims.clear();
 				} else {
+					List<MobEffectInstance> list = Lists.newArrayList();
+					if (this.potionContents.potion().isPresent()) {
+						for (MobEffectInstance effectinstance1 : this.potionContents.potion().get().value().getEffects()) {
+							list.add(new MobEffectInstance(effectinstance1.getEffect(), effectinstance1.mapDuration(duration -> duration / 4), effectinstance1.getAmplifier(), effectinstance1.isAmbient(), effectinstance1.isVisible()));
+						}
+					}
+
+					list.addAll(this.potionContents.customEffects());
+
 					List<LivingEntity> list1 = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox());
 					if (!list1.isEmpty()) {
 						for(LivingEntity livingentity : list1) {
 							if (!this.victims.containsKey(livingentity) && livingentity.isAffectedByPotions()) {
-								this.victims.put(livingentity, this.tickCount + this.reapplicationDelay);
 								double x = livingentity.getX() - this.getX();
-								double y = livingentity.getY() + (livingentity.getDimensions(livingentity.getPose()).height / 2) - (this.getY());
+								double y = livingentity.getY() + (livingentity.getDimensions(livingentity.getPose()).height() / 2) - (this.getY());
 								double z = livingentity.getZ() - this.getZ();
 								double d2 = x * x + y * y + z * z;
 								if (d2 <= (double)(radius * radius)) {
+									this.victims.put(livingentity, this.tickCount + this.reapplicationDelay);
 									for (MobEffectInstance effectinstance : list) {
-										if (effectinstance.getEffect().isInstantenous()) {
-											effectinstance.getEffect().applyInstantenousEffect(this, this.getOwner(), livingentity, effectinstance.getAmplifier(), 0.5D);
+										if (effectinstance.getEffect().value().isInstantenous()) {
+											effectinstance.getEffect().value().applyInstantenousEffect(this, this.getOwner(), livingentity, effectinstance.getAmplifier(), 0.5D);
 										}
 										else {
-											livingentity.addEffect(new MobEffectInstance(effectinstance));
+											livingentity.addEffect(new MobEffectInstance(effectinstance), this);
 										}
 									}
 									if (this.radiusOnUse != 0.0F) {
@@ -175,10 +168,5 @@ public class Cloud3DEntity extends AreaEffectCloud {
 	@Override
 	public EntityDimensions getDimensions(Pose poseIn) {
 		return EntityDimensions.scalable(this.getRadius() * 2.0F, this.getRadius() * 2.0F);
-	}
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

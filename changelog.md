@@ -1,13 +1,2 @@
-# Changelog
-
-## 1.0.4
-* Fixed mod id
-
-## 1.0.3
-* Damn it
-
-## 1.0.2
-* Fixed mod name missing an e
-
-## 1.0.0
-* First release
+# 2.0.0.0
+* Port to 1.21.1

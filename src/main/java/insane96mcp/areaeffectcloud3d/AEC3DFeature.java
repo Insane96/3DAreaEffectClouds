@@ -1,19 +1,17 @@
 package insane96mcp.areaeffectcloud3d;
 
 import insane96mcp.areaeffectcloud3d.entity.Cloud3DEntity;
-import insane96mcp.insanelib.base.Feature;
-import insane96mcp.insanelib.base.LoadFeature;
-import insane96mcp.insanelib.base.Module;
-import insane96mcp.insanelib.base.config.Config;
+import insane96mcp.insanelib.core.feature.Feature;
+import insane96mcp.insanelib.core.feature.LoadFeature;
+import insane96mcp.insanelib.core.feature.config.Config;
 import net.minecraft.server.TickTask;
 import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraftforge.common.util.LogicalSidedProvider;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.common.util.LogicalSidedProvider;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 
 @LoadFeature(
         module = AreaEffectCloud3D.MOD_ID + ":base",
@@ -25,10 +23,6 @@ public class AEC3DFeature extends Feature {
     @Config(description = "If true, vanilla Area of Effect Clouds will be replaced with 3D versions of them")
     public static Boolean replaceVanillaAreaEffectClouds = true;
 
-    public AEC3DFeature(Module module, boolean enabledByDefault, boolean canBeDisabled) {
-        super(module, enabledByDefault, canBeDisabled);
-    }
-
     @SubscribeEvent
     public void onSpawn(EntityJoinLevelEvent event) {
         if (!this.isEnabled()
@@ -37,7 +31,7 @@ public class AEC3DFeature extends Feature {
             return;
 
         AreaEffectCloud areaEffectCloud = (AreaEffectCloud) event.getEntity();
-        if (areaEffectCloud.effects.isEmpty() && areaEffectCloud.potion.equals(Potions.EMPTY))
+        if (!areaEffectCloud.potionContents.hasEffects())
             return;
         event.setCanceled(true);
         Cloud3DEntity areaEffectCloud3D = new Cloud3DEntity(areaEffectCloud);
